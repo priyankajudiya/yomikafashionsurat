@@ -1,0 +1,400 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block title %}{% endblock title %}
+
+{% block keyword %}{% endblock keyword %}
+
+{% block description %} {% endblock description %}
+
+{% block csstop %}
+<link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.336.css' %}">
+<link rel="stylesheet" href="{% static 'vendor/daterangepicker/datepicker.css' %}">
+<link rel="stylesheet" href="{% static 'css/fa463.css' %}">
+{% endblock csstop %}
+
+{% block css %}
+<style>
+    .profile-panel .panel-heading {
+        padding: 10px 25px;
+        background: #5f645c;
+        border-radius: 0;
+    }
+
+    .profile-panel .panel-heading h2 {
+        margin-top: 0;
+        margin-bottom: 0;
+        color: #fff;
+        padding-left: 20px;
+    }
+
+    .profile-panel .panel-body {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .profile-panel .panel-body:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    .profile-panel .panel-body h2 {
+        margin: 0;
+        font-weight: 100;
+        font-size: 20px;
+        color: #404040;
+    }
+
+    .profile-panel .panel-body header {
+        margin-bottom: 25px;
+    }
+
+    .profile-panel .panel-body .figure-wrapper {
+        width: 100%;
+        height: 100%;
+    }
+
+    .profile-panel .panel-body .figure-wrapper img {
+        width: 100%;
+    }
+
+    .profile-panel .panel-body .profile-details h2 {
+        margin-top: 20px;
+        margin-bottom: 15px;
+        font-size: 18px;
+        color: #404040;
+    }
+
+    .profile-panel .panel-body .profile-details li {
+        padding: 8px 0 8px 35px;
+        position: relative;
+        font-weight: normal;
+        color: #404040;
+        font-size: 15px;
+    }
+
+    .profile-panel .panel-body .profile-details li i {
+        font-size: 16px;
+        vertical-align: top;
+        line-height: 100%;
+        position: absolute;
+        left: 0;
+        width: 18px;
+        text-align: center;
+        top: 12px;
+    }
+
+    .profile-panel .panel-body .profile-block {
+        position: relative;
+    }
+
+    .profile-panel .panel-body .profile-block .profile-header h2 {
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+        color: #404040;
+    }
+
+    .profile-panel .panel-body .profile-block .profile-edit {
+        position: relative;
+        z-index: 1;
+        display: none;
+    }
+
+    .profile-panel .panel-body .profile-block.toggled .profile-edit {
+        display: block;
+    }
+
+    .profile-panel .panel-body .profile-block.toggled .profile-view {
+        display: none;
+    }
+
+    .profile-panel .panel-body ul {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .profile-panel .panel-body ul.actions {
+        position: absolute;
+        top: -2px;
+        right: 0;
+    }
+
+    .profile-panel .panel-body ul.actions i {
+        color: #404040;
+    }
+
+    .profile-panel .panel-body dt {
+        font-weight: normal;
+        color: #404040;
+    }
+
+    @media screen and (min-width: 1025px) {
+        .profile-panel .panel-body .dl-horizontal dt {
+            text-align: left;
+        }
+    }
+
+    .p-10 {
+        padding-top: 10px;
+    }
+
+    .btn-link {
+        color: #888888;
+        text-decoration: none;
+        border-radius: 2px;
+        padding: 6px 12px;
+        outline: 0;
+    }
+
+    .btn-link:hover {
+        color: #888888;
+        text-decoration: none;
+    }
+
+    label {
+        margin-left: 20px;
+    }
+
+    #datepicker {
+        width: 180px;
+        {% comment %} margin: 0 20px 20px 20px; {% endcomment %}
+    }
+
+    #datepicker>span:hover {
+        cursor: pointer;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container">
+    <div class="col-md-12 col-sm-6 mt-5">
+        <div class="panel profile-panel">
+            <div class="panel-heading">
+                <div class="text-left">
+                    <h2>{{user.first_name}} {{user.last_name}}</h2>
+                </div>
+            </div>
+            <!-- panel body -->
+            <div class="panel-body">
+                <div>
+                    <div class="row justify-content-md-center">
+                        <div class="col-md-2">
+                            <div class="figure-wrapper">
+                                <figure>
+                                    {% comment %} <img src="http://i2.imgbus.com/doimg/5co1mm5on9b50e7.jpg" alt="">
+                                    <h1>Hello</h1> {% endcomment %}
+                                </figure>
+                                <div class="profile-details">
+                                    <h2>Contact Information</h2>
+                                    <ul>
+                                        <li><i class="fa fa-tasks"></i> {{user.first_name}} {{user.last_name}}</li>
+                                        <li><i class="fa fa-users"></i> {{user.profile.dob }}</li>
+                                        <li><i class="fa fa-phone"></i> {{user.profile.phone_number}}</li>
+                                        <li><i class="fa fa-envelope"></i> {{user.profile.address}}, {{user.profile.city}}, {{user.profile.state}}, {{user.profile.pincode}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="profile-block">
+                                <header class="profile-header">
+                                    <h2><i class="fa fa-user"></i> Information</h2>
+                                    <ul class="actions">
+                                        <li class="dropdown">
+                                            <a href="#" data-toggle="dropdown">
+                                                <i class="fa fa-pencil-square-o"></i>
+                                            </a>
+
+                                            <ul class="dropdown-menu dropdown-menu-right">
+                                                <li>
+                                                    <a data-profile-action="edit" href="#">Edit</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </header>
+                                <div class="profile-body">
+                                    <div class="profile-view">
+                                        <dl class="dl-horizontal">
+                                            <dt>First Name</dt>
+                                            <dd>{{user.first_name}}</dd>
+                                        </dl>
+                                        <dl class="dl-horizontal">
+                                            <dt>Last Name</dt>
+                                            <dd>{{user.last_name}}</dd>
+                                        </dl>
+                                        <dl class="dl-horizontal">
+                                            <dt>Gender</dt>
+                                            <dd>{{user.profile.gendar}}</dd>
+                                        </dl>
+                                        <dl class="dl-horizontal">
+                                            <dt>Date Of Birth</dt>
+                                            <dd>{{user.profile.dob}} ({{user.profile.age}} years old)</dd>
+                                        </dl>
+                                        <dl class="dl-horizontal">
+                                            <dt>Phone Number</dt>
+                                            <dd>{{user.profile.phone_number}}</dd>
+                                        </dl>
+                                        <dl class="dl-horizontal">
+                                            <dt>Email</dt>
+                                            <dd>{{user.email}}</dd>
+                                        </dl>
+                                        <dl class="dl-horizontal">
+                                            <dt>Address</dt>
+                                            <dd>{{user.profile.address}}</dd>
+                                        </dl>
+                                    </div>
+
+                                    <form action="" method="POST">
+                                    {% csrf_token %}
+                                        <div class="profile-edit">
+                                            <dl class="dl-horizontal">
+                                                <dt class="p-10">First Name</dt>
+                                                <dd>
+                                                    <div class="fg-line">
+                                                        <input name="first_name" value="{{user.first_name}}" type="text" class="form-control" placeholder="eg. {{user.first_name}}">
+                                                    </div>
+                                                </dd>
+                                            </dl>
+                                            <dl class="dl-horizontal">
+                                                <dt class="p-10">Last Name</dt>
+                                                <dd>
+                                                    <div class="fg-line">
+                                                        <input name="last_name" value="{{user.last_name}}" type="text" class="form-control" placeholder="eg. {{user.last_name}}">
+                                                    </div>
+                                                </dd>
+                                            </dl>
+                                            <dl class="dl-horizontal">
+                                                <dt class="p-10">Gender</dt>
+                                                <dd>
+                                                    <div class="fg-line p-10">
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input"
+                                                                {% if user.profile.gendar == 'male' %}checked{% endif %}
+                                                                type="radio" name="gendar" id="inlineRadio1"
+                                                                value="male">
+                                                            <label class="form-check-label"
+                                                                for="inlineRadio1">Male</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input"
+                                                                {% if user.profile.gendar == 'female' %}checked{% endif %}
+                                                                type="radio" name="gendar" id="inlineRadio2"
+                                                                value="female">
+                                                            <label class="form-check-label"
+                                                                for="inlineRadio2">Female</label>
+                                                        </div>
+                                                    </div>
+                                                </dd>
+                                            </dl>
+                                            <dl class="dl-horizontal">
+                                                <dt class="p-10">Date Of Birth</dt>
+                                                <dd>
+                                                    <div class="fg-line">
+                                                        <div id="datepicker" class="input-group date" data-date-format="yyyy-mm-dd">
+                                                            <input name="dob" class="form-control" type="text" value="{{user.profile.dob | date:'Y-m-d'}}" readonly placeholder="{{user.profile.dob}}" />
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </dd>
+                                            </dl>
+                                            <dl class="dl-horizontal">
+                                                <dt class="p-10">Address</dt>
+                                                <dd>
+                                                    <div class="fg-line">
+                                                        <textarea name="address" class="form-control" id="exampleFormControlTextarea1" rows="4">{{user.profile.address}}</textarea>
+                                                    </div>
+                                                </dd>
+                                            </dl>
+                                            <dl class="dl-horizontal">
+                                                <dt class="p-10">State</dt>
+                                                <dd>
+                                                    <div class="fg-line">
+                                                            <input name="state" class="form-control" type="text" value="{{user.profile.state}}" placeholder="{{user.profile.state}}" />
+                                                    </div>
+                                                </dd>
+                                            </dl>
+                                            <dl class="dl-horizontal">
+                                                <dt class="p-10">City</dt>
+                                                <dd>
+                                                    <div class="fg-line">
+                                                            <input name="city" class="form-control" type="text" value="{{user.profile.city}}" placeholder="{{user.profile.city}}" />
+                                                    </div>
+                                                </dd>
+                                            </dl>
+                                            <dl class="dl-horizontal">
+                                                <dt class="p-10">Pincode</dt>
+                                                <dd>
+                                                    <div class="fg-line">
+                                                            <input name="pincode" class="form-control" type="text" value="{{user.profile.pincode}}" placeholder="{{user.profile.pincode}}" />
+                                                    </div>
+                                                </dd>
+                                            </dl>
+                                            <dl class="dl-horizontal">
+                                                <dt class="p-10">Phone Number</dt>
+                                                <dd>
+                                                    <div class="fg-line">
+                                                        <input name="phone_number" value="{{user.profile.phone_number}}" type="number" class="form-control" placeholder="eg. {{user.profile.phone_number}}">
+                                                    </div>
+                                                </dd>
+                                            </dl>
+                                            <dl class="dl-horizontal">
+                                                <dt class="p-10">Email</dt>
+                                                <dd>
+                                                    <div class="fg-line">
+                                                        <input name="email" type="email" class="form-control" placeholder="{{user.email}}" readonly>
+                                                    </div>
+                                                </dd>
+                                            </dl>
+
+                                            <div class="m-t-30">
+                                                <button class="btn btn-primary btn-sm waves-effect">Save</button>
+                                                <button data-profile-action="reset"
+                                                    class="btn-link btn-cancel">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end panel body -->
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="{% static 'vendor/daterangepicker/datepicker.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        $(function () {
+            $("#datepicker").datepicker({
+                autoclose: true,
+                todayHighlight: true
+            });
+        });
+
+        if ($('[data-profile-action]')[0]) {
+            $('body').on('click', '[data-profile-action]', function (e) {
+                e.preventDefault();
+                var d = $(this).data('profile-action');
+                if (d === "edit") {
+                    $(this).closest('.profile-block').toggleClass('toggled');
+                }
+                if (d === "reset") {
+                    $(this).closest('.profile-block').removeClass('toggled');
+                }
+            });
+        }
+    });
+</script>
+
+{% endblock js %}
