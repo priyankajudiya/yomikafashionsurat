@@ -55,31 +55,31 @@
       <div class="wrap-menu-desktop">
         <nav class="limiter-menu-desktop p-l-45">
           <!-- Logo desktop -->
-          <a href="#" class="logo">
+          <a href="{% url 'main:index' %}" class="logo">
             <img src="{% static 'images/icons/logo-00.png' %}" alt="IMG-LOGO">
           </a>
 
           <!-- Menu desktop -->
           <div class="menu-desktop">
             <ul class="main-menu">
-              <li class="active-menu">
+              <li class="{% block home %}{% endblock home %}">
                 <a href="{% url 'main:index' %}">Home</a>
               </li>
 
-              <li>
+              <li class="{% block shop %}{% endblock shop %}">
                 <a href="{% url 'products:shop' %}">Shop</a>
               </li>
 
-              <li>
+              <li class="{% block features %}{% endblock features %} d-none">
                 <a href="/">Features</a>
               </li>
 
-              <li>
-                <a href="/">About</a>
+              <li class="{% block about %}{% endblock about %}">
+                <a href="{% url 'main:about' %}">About</a>
               </li>
 
-              <li>
-                <a href="/">Contact</a>
+              <li class="{% block contact %}{% endblock contact %}">
+                <a href="{% url 'main:contact' %}">Contact</a>
               </li>
               {% if user.is_staff %}
               <li>
@@ -191,11 +191,11 @@
         </li>
 
         <li>
-          <a href="/">About</a>
+          <a href="{% url 'main:about' %}">About Us</a>
         </li>
 
         <li>
-          <a href="/">Contact</a>
+          <a href="{% url 'main:contact' %}">Contact</a>
         </li>
         {% if user.is_authenticated %}
         <hr>

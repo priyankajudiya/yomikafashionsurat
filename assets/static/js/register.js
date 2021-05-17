@@ -140,17 +140,15 @@ $(document).ready(function () {
   ///////////////////////// Terms Checkbox
   $('#cb1').click(function () {
     if ($(this).prop("checked") == true) {
-      console.log("Checkbox is checked.");
       $('label[for="cb1"]').removeClass('text-danger');
       terms_checked = true
     }
     else if ($(this).prop("checked") == false) {
-      console.log("Checkbox is unchecked.");
       $('label[for="cb1"]').addClass('text-danger');
       terms_checked = false
     }
   });
-
+ 
   //////////////////// on Submit
   $('input[type="submit"]').click(function (event) {
 

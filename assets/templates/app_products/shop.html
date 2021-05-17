@@ -10,19 +10,20 @@
 
 {% endblock css %}
 
+{% block shop %}active-menu{% endblock shop %}
 {% block content %}
 	<div class="bg0 m-t-23 p-b-140">
 		<div id="main" class="container">
 			<div class="flex-w flex-sb-m p-b-52">
 				<div class="flex-w flex-l-m filter-tope-group m-tb-10">
-					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
+					<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" href="{% url 'products:shop' %}">
 						All Products
-					</button>
+					</a>
 
 					{% for category in categorys  %}
-					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".{{category}}">
+					<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" href="{% url 'products:productFilter' %}?filter={{category}}">
 						{{category | title}}
-					</button>
+					</a>
 					{% endfor %}
 				</div>
 
@@ -244,7 +245,7 @@
 			<div id='shop' class="row isotope-grid shop">
 					<!-- Block Products -->
 				{% for product in products %}
-				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item {{product.cat}}">
+				<div class="col-6 col-md-4 col-lg-3 p-b-35 isotope-item {{product.cat}}">
 					<div class="block2">
 						<div class="block2-pic hov-img0">
 							<img src="{{product.img1.url}}" alt="IMG-PRODUCT">

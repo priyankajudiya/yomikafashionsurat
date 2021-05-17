@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 # Main Urls
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('myadmin/', admin.site.urls),
     path('', include('app_main.urls')),
     path('user/', include('app_user.urls')),
     path('ajax/', include('app_ajax.urls')),

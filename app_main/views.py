@@ -15,3 +15,12 @@ class index(View):
             'products': items[:5]
         }
         return render(request, 'app_main/index.html', context)
+
+class about(View):
+    def get(self, request):
+        return render(request, 'app_main/about.html')
+
+
+class contact(View):
+    def get(self, request):
+        return render(request, 'app_main/contact.html')

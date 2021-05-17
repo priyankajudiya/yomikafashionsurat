@@ -19,7 +19,7 @@ from app_cart.models import Cart
 
 ###################################################
 from django.views.generic import ListView
-from django.core.paginator import Paginator
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 class shop(ListView):
     model = models.product
@@ -40,3 +40,16 @@ class productDetails(DetailView):
     model = models.product
     template_name = 'app_products/product-detail.html'
     context_object_name = 'product'
+
+################################### Product filter
+class productFilter(View):
+    def get(self, request):
+        context = {}
+        search = request.GET.get('filter')
+        
+        products = models.product.objects.filter(cat__productCategory=search)
+            
+        context['categorys'] = models.category.objects.all()
+        context['products'] = products
+
+        return render(request, 'app_products/shop-filter.html', context)
