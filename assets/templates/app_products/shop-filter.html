@@ -1,6 +1,6 @@
 {% extends '../base.html' %}
 {% load static %}
-{% block title %}{% endblock title %}
+{% block title %}Yomika Fashion - {{categoryName}}{% endblock title %}
 
 {% block keyword %}{% endblock keyword %}
 
@@ -16,12 +16,12 @@
 		<div id="main" class="container">
 			<div class="flex-w flex-sb-m p-b-52">
 				<div class="flex-w flex-l-m filter-tope-group m-tb-10">
-					<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" href="{% url 'products:shop' %}">
+					<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 " href="{% url 'products:shop' %}">
 						All Products
 					</a>
 
 					{% for category in categorys  %}
-					<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" href="{% url 'products:productFilter' %}?filter={{category}}">
+					<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 {% if category.productCategory == categoryName %}how-active1{% endif %}" href="{% url 'products:productFilter' %}?filter={{category}}">
 						{{category | title}}
 					</a>
 					{% endfor %}
@@ -278,26 +278,28 @@
 			</div>
 
 			<!-- Paginator -->
-			{% if pro.has_other_pages %}
-			<ul class="pagination">
-				{% if pro.has_previous %}
-				<li><a href="?page={{ pro.previous_page_number }}">&laquo;</a></li>
-				{% else %}
-				<li class="disabled"><span>&laquo;</span></li>
-				{% endif %}
-				{% for i in pro.paginator.page_range %}
-				{% if pro.number == i %}
-					<li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-				{% else %}
-					<li><a href="?page={{ i }}">{{ i }}</a></li>
-				{% endif %}
-				{% endfor %}
-				{% if pro.has_next %}
-				<li><a href="?page={{ pro.next_page_number }}">&raquo;</a></li>
-				{% else %}
-				<li class="disabled"><span>&raquo;</span></li>
-				{% endif %}
-			</ul>
+			{% if products.has_other_pages %}
+			<div id="pagi" class="flex-c-m flex-w w-full p-t-45">
+				<ul class="pagination pagination-lg">
+					{% if products.has_previous %}
+					<li class="page-item"><a class="page-link" href="{{request.get_full_path}}&page={{ products.previous_page_number }}" aria-label="Previous">&laquo;</a></li>
+					{% else %}
+					<li class="disabled page-item"><span class="page-link" aria-label="Previous">&laquo;</span></li>
+					{% endif %}
+					{% for i in products.paginator.page_range %}
+					{% if products.number == i %}
+						<li class="page-item active"><a class="page-link " href="#">{{ i }}</a></li>
+					{% else %}
+						<li class="page-item"><a class="page-link" href="{{request.get_full_path}}&page={{ i }}">{{ i }}</a></li>
+					{% endif %}
+					{% endfor %}
+					{% if products.has_next %}
+					<li class="page-item"><a class="page-link" href="{{request.get_full_path}}&page={{ products.next_page_number }}" aria-label="Next">&raquo;</a></li>
+					{% else %}
+					<li class="page-item disabled"><a class="page-link" href="" aria-label="Next">&raquo;</a></li>
+					{% endif %}
+				</ul>
+			</div>
 			{% endif %}
 		</div>
 	</div>

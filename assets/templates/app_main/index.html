@@ -5,6 +5,33 @@
 {% block keyword %}Sarees, saris, salwar kameez, lehenga cholis, wedding bridal sarees, indian wedding lehengas, embroidered sarees, designer sarees salwar kameez, wedding lehengas, bridal lehengas, bridal lehenga cholis, salwar kameez shopping, traditional sarees lehenga cholis, embroidered salwar kameez wholesale, lehenga choli exporters wholesale, buy sari online, chaniya cholis, shalwar kameez, designer lehengas, salwar kameez fashion, traditonal wedding saris, saree wholesale, saree sari manufacturers exporters, Utsav Fashion jaipur{% endblock keyword %}
 {% block description %}Online shop for wedding bridal sarees, designer sarees, embroidered sarees salwar kameez, bridal wedding lehengas, traditional sarees lehengas, embroidered salwar kameez, traditional salwar kameez, designer lehengas for express delivery to USa, UK, India, australia and Worldwide{% endblock description %}
 {% block css %}
+<style>
+  .slick1-img1{
+    background-image: url({% static 'images/1.jpg' %});
+  }
+
+  .slick1-img2{
+    background-image: url({% static 'images/2.jpg' %});
+  }
+
+  .slick1-img3{
+    background-image: url({% static 'images/3.jpg' %});
+  }
+
+  @media only screen and (max-width: 768px) {
+    .slick1-img1{
+      background-image: url({% static 'images/m1.jpg' %});
+    }
+
+    .slick1-img2{
+      background-image: url({% static 'images/m2.jpg' %});
+    }
+
+    .slick1-img3{
+      background-image: url({% static 'images/m3.jpg' %});
+    }
+  }
+</style>
 {% endblock css %}
 {% block home %}active-menu{% endblock home %}
 {% block content %}
@@ -12,7 +39,7 @@
 <section class="section-slide">
   <div class="wrap-slick1 rs1-slick1">
     <div class="slick1">
-      <div class="item-slick1" style="background-image: url({% static 'images/slide-03.jpg' %})">
+      <div class="item-slick1 slick1-img1" >
         <div class="container h-full">
           <div class="flex-col-l-m h-full p-t-100 p-b-30">
             <div class="layer-slick1 animated visible-false" data-appear="fadeInDown" data-delay="0">
@@ -30,7 +57,7 @@
         </div>
       </div>
 
-      <div class="item-slick1" style="background-image: url({% static 'images/slide-02.jpg' %})">
+      <div class="item-slick1 slick1-img2">
         <div class="container h-full">
           <div class="flex-col-l-m h-full p-t-100 p-b-30">
             <div class="layer-slick1 animated visible-false" data-appear="rollIn" data-delay="0">
@@ -48,7 +75,7 @@
         </div>
       </div>
 
-      <div class="item-slick1" style="background-image: url({% static 'images/slide-04.jpg' %})">
+      <div class="item-slick1 slick1-img3">
         <div class="container h-full">
           <div class="flex-col-l-m h-full p-t-100 p-b-30">
             <div class="layer-slick1 animated visible-false" data-appear="rotateInDownLeft" data-delay="0">
@@ -197,7 +224,7 @@
           </div>
         </div>
 
-        <!-- - -->
+        {% comment %} <!-- - -->
         <div class="tab-pane fade" id="featured" role="tabpanel">
           <!-- Slide2 -->
           <div class="wrap-slick2">
@@ -869,7 +896,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> {% endcomment %}
       </div>
     </div>
   </div>
