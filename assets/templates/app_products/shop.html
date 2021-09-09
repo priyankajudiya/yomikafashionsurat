@@ -19,13 +19,22 @@
 					<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" href="{% url 'products:shop' %}">
 						All Products
 					</a>
-
+					{% comment %}
 					{% for category in categorys  %}
-					<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" href="{% url 'products:productFilter' %}?filter={{category}}">
+						<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" href="{% url 'products:productFilter' %}?cat={{category}}">
 						{{category | title}}
 					</a>
 					{% endfor %}
-				</div>
+					{% endcomment %}
+					<form id="catBy" action="{% url 'products:productFilter' %}" method="get">
+					{% for category in categorys  %}
+					<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" href="{{category}}">
+						{{category | title}}
+					</a>
+					{% endfor %}
+					<input type="hidden" name="cat">
+					</form>
+				</div> 
 
 				<div class="flex-w flex-c-m m-tb-10">
 					<div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter">
@@ -55,160 +64,161 @@
 				<!-- Filter -->
 				<div class="dis-none panel-filter w-full p-t-10">
 					<div class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm">
-						<div class="filter-col1 p-r-15 p-b-27">
-							<div class="mtext-102 cl2 p-b-15">
-								Sort By
+							<div class="filter-col1 p-r-15 p-b-27">
+								<div class="mtext-102 cl2 p-b-15">
+									Sort By
+								</div>
+
+								<form id="sortBy" action="{% url 'products:productFilter' %}" method="get">
+									<ul>
+										<li class="p-b-6">
+											<a href="default" class="filter-link stext-106 trans-04 filter-link-active">
+												Default
+											</a>
+										</li>
+{% comment %} 
+										<li class="p-b-6">
+											<a href="#" class="filter-link stext-106 trans-04">
+												Popularity
+											</a>
+										</li>
+
+										<li class="p-b-6">
+											<a href="#" class="filter-link stext-106 trans-04">
+												Average rating
+											</a>
+										</li>
+
+										<li class="p-b-6">
+											<a href="#" class="filter-link stext-106 trans-04">
+												Newness
+											</a>
+										</li>
+ {% endcomment %}
+										<li class="p-b-6">
+											<a href="lowHigh" class="filter-link stext-106 trans-04">
+												Price: Low to High
+											</a>
+										</li>
+
+										<li class="p-b-6">
+											<a href="highLow" class="filter-link stext-106 trans-04">
+												Price: High to Low
+											</a>
+										</li>
+									</ul>
+									<input type="hidden" name="sb">
+								</form>
 							</div>
-
-							<ul>
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										Default
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										Popularity
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										Average rating
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04 filter-link-active">
-										Newness
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										Price: Low to High
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										Price: High to Low
-									</a>
-								</li>
-							</ul>
-						</div>
 
 						<div class="filter-col2 p-r-15 p-b-27">
 							<div class="mtext-102 cl2 p-b-15">
 								Price
 							</div>
+							<form id="priceBy" action="{% url 'products:productFilter' %}" method="get">
+								<ul>
+									<li class="p-b-6">
+										<a href="all" class="filter-link stext-106 trans-04 filter-link-active">
+											All
+										</a>
+									</li>
 
-							<ul>
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04 filter-link-active">
-										All
-									</a>
-								</li>
+									<li class="p-b-6">
+										<a href="0-1000" class="filter-link stext-106 trans-04">
+											RS 0.00 - Rs 1000.00
+										</a>
+									</li>
 
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										$0.00 - $50.00
-									</a>
-								</li>
+									<li class="p-b-6">
+										<a href="1000-3000" class="filter-link stext-106 trans-04">
+											RS 1000.00 - Rs 3000.00
+										</a>
+									</li>
 
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										$50.00 - $100.00
-									</a>
-								</li>
+									<li class="p-b-6">
+										<a href="3000-5000" class="filter-link stext-106 trans-04">
+											RS 3000.00 - Rs 5000.00
+										</a>
+									</li>
 
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										$100.00 - $150.00
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										$150.00 - $200.00
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										$200.00+
-									</a>
-								</li>
-							</ul>
+									<li class="p-b-6">
+										<a href="5000+" class="filter-link stext-106 trans-04">
+											RS 5000.00 - All
+										</a>
+									</li>
+								</ul>
+								<input type="hidden" name="pb">
+							</form>
 						</div>
 
 						<div class="filter-col3 p-r-15 p-b-27">
 							<div class="mtext-102 cl2 p-b-15">
 								Color
 							</div>
+							<form id="colorBy" action="{% url 'products:productFilter' %}" method="get">
+								<ul>
+									<li class="p-b-6">
+										<span class="fs-15 lh-12 m-r-6" style="color: #222;">
+											<i class="zmdi zmdi-circle"></i>
+										</span>
 
-							<ul>
-								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #222;">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
+										<a href="black" class="filter-link stext-106 trans-04">
+											Black
+										</a>
+									</li>
 
-									<a href="#" class="filter-link stext-106 trans-04">
-										Black
-									</a>
-								</li>
+									<li class="p-b-6">
+										<span class="fs-15 lh-12 m-r-6" style="color: #4272d7;">
+											<i class="zmdi zmdi-circle"></i>
+										</span>
 
-								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #4272d7;">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
+										<a href="blue" class="filter-link stext-106 trans-04 filter-link-active">
+											Blue
+										</a>
+									</li>
 
-									<a href="#" class="filter-link stext-106 trans-04 filter-link-active">
-										Blue
-									</a>
-								</li>
+									<li class="p-b-6">
+										<span class="fs-15 lh-12 m-r-6" style="color: #b3b3b3;">
+											<i class="zmdi zmdi-circle"></i>
+										</span>
 
-								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #b3b3b3;">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
+										<a href="grey" class="filter-link stext-106 trans-04">
+											Grey
+										</a>
+									</li>
 
-									<a href="#" class="filter-link stext-106 trans-04">
-										Grey
-									</a>
-								</li>
+									<li class="p-b-6">
+										<span class="fs-15 lh-12 m-r-6" style="color: #00ad5f;">
+											<i class="zmdi zmdi-circle"></i>
+										</span>
 
-								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #00ad5f;">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
+										<a href="green" class="filter-link stext-106 trans-04">
+											Green
+										</a>
+									</li>
 
-									<a href="#" class="filter-link stext-106 trans-04">
-										Green
-									</a>
-								</li>
+									<li class="p-b-6">
+										<span class="fs-15 lh-12 m-r-6" style="color: #fa4251;">
+											<i class="zmdi zmdi-circle"></i>
+										</span>
 
-								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #fa4251;">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
+										<a href="red" class="filter-link stext-106 trans-04">
+											Red
+										</a>
+									</li>
 
-									<a href="#" class="filter-link stext-106 trans-04">
-										Red
-									</a>
-								</li>
+									<li class="p-b-6">
+										<span class="fs-15 lh-12 m-r-6" style="color: #aaa;">
+											<i class="zmdi zmdi-circle-o"></i>
+										</span>
 
-								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #aaa;">
-										<i class="zmdi zmdi-circle-o"></i>
-									</span>
-
-									<a href="#" class="filter-link stext-106 trans-04">
-										White
-									</a>
-								</li>
-							</ul>
+										<a href="white" class="filter-link stext-106 trans-04">
+											White
+										</a>
+									</li>
+								</ul>
+								<input type="hidden" name="cb">
+							</form>
 						</div>
 
 						<div class="filter-col4 p-b-27">
@@ -251,7 +261,7 @@
 							<img src="{{product.img1.url}}" alt="IMG-PRODUCT">
 
 							<a href="{% url 'products:productDetails' product.pk product.slug %}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 jsx-show-modal1">
-								Quick View
+								View
 							</a>
 						</div>
 
@@ -309,9 +319,31 @@
 {% endblock content %}
 
 {% block js %}
-<script id="js">
+<script>
 	$(document).ready(()=>{
-		
+		$('#catBy a').on('click', function(e){
+			e.preventDefault()
+			$('#catBy input').attr('value',$(this).attr('href'))
+			$('#catBy').submit()
+		});
+
+		$('#sortBy ul li a').on('click', function(e){
+			e.preventDefault()
+			$('#sortBy input').attr('value',$(this).attr('href'))
+			$('#sortBy').submit()
+		});
+
+		$('#priceBy ul li a').on('click', function(e){
+			e.preventDefault()
+			$('#priceBy input').attr('value',$(this).attr('href'))
+			$('#priceBy').submit()
+		});
+
+		$('#colorBy ul li a').on('click', function(e){
+			e.preventDefault()
+			$('#colorBy input').attr('value',$(this).attr('href'))
+			$('#colorBy').submit()
+		});
 	})
 </script>
 {% endblock js %}

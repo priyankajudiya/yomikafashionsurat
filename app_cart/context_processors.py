@@ -18,7 +18,6 @@ def cartTotal(request):
         obj = Cart.objects.filter(user=request.user)
         for x in obj:
             total.append(x.product_id.price*x.product_qty)
-            #print(x.product_id.price, x.product_qty,x.product_id.price*x.product_qty)
     except:
         pass
 

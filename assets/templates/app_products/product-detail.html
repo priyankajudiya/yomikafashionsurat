@@ -100,7 +100,7 @@
 								<div class="size-204 respon6-next">
 									<div id="size_bg" class="rs1-select2 bor8 bg0">
 										<select class="js-select2" name="size">
-											<option>Choose an option</option>
+											<option disabled selected>Choose an option</option>
 											{% for size in product.size.split %}
 											<option>{{size}}</option>
 											{% endfor %}
@@ -118,7 +118,7 @@
 								<div class="size-204 respon6-next">
 									<div id="color_bg" class="rs1-select2 bor8 bg0">
 										<select class="js-select2" name="color">
-											<option>Choose an option</option>
+											<option disabled selected>Choose an option</option>
 											{% for color in product.color.split %}
 											<option>{{ color }}</option>
 											{% endfor %}
@@ -464,7 +464,8 @@
 		$('form').on('submit', function(e){
 			e.preventDefault();
 			// check this condition befor submiting
-			if (size.val() === "Choose an option"){
+			
+			if (!size.val()){
 				$('#size_bg').addClass('bg-danger')
 				$('#id_size').addClass('animate__animated animate__shakeY text-danger')
 				setTimeout(function() {
@@ -472,7 +473,7 @@
 				}, 800);
 				return
 			}
-			if (color.val() === "Choose an option"){
+			if (!color.val()){
 				$('#color_bg').addClass('bg-danger')
 				$('#id_color').addClass('animate__animated animate__shakeY text-danger')
 				setTimeout(function() {

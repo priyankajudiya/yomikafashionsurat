@@ -11,8 +11,9 @@ from app_products.models import product
 
 class myCart(View):
     def get(self, request):
-        try: context = {'cart': Cart.objects.filter(user=request.user)}
-        except: context = {}
+        context={}
+        try: context['cart'] = Cart.objects.filter(user=request.user)
+        except: pass
         return render(request, 'app_cart/myCart.html', context)
 
 ################# Product add to cart Ajax
@@ -35,6 +36,20 @@ class addToCart(View):
 
             except Exception as e:
                 return HttpResponse(f'Magic Happen!: {e}')
+
+
+################# Product QTY update Ajax
+class qtyUpdate(View):
+    def post(self, request):
+        if request.is_ajax():
+            cartId = request.POST.get('cartid')
+            qty = request.POST.get('qty')
+
+            cartObj = get_object_or_404(Cart, user = request.user, pk = cartId)
+            cartObj.product_qty = qty
+            cartObj.save()
+            return JsonResponse({'type': 'updated', 'msg': 'qty updated'})
+
             
 
 ################################### product delete from cart
@@ -42,5 +57,7 @@ def removeFromCart(request, pk):
     obj = get_object_or_404(Cart, id=pk)
     if request.user.is_authenticated and request.user.pk == obj.user.pk:
         obj.delete()
+    if request.is_ajax():
+        return HttpResponse('removed')
                 
     return redirect(request.GET.get('next'))

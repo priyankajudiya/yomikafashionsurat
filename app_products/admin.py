@@ -10,3 +10,6 @@ class categoryAdminModel(admin.ModelAdmin):
 @admin.register(models.product)
 class productAdminModel(admin.ModelAdmin):
     list_display = ('pk','title', 'seller', 'cat', 'price', 'upload_date')
+    list_filter = ('cat', 'price')
+    # list_per_page = 2
+    search_fields = ('title',)

@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'app_profile',
     'app_products',
     'app_cart',
+    'app_order',
     # =====================3rd party App
     'django_filters',
 ]
@@ -105,7 +106,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Asia/kolkata'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 

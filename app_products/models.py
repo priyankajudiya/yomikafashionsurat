@@ -32,6 +32,7 @@ class product(models.Model):
 
     title = models.CharField(max_length=60)
     price = models.IntegerField()
+    stock_qty = models.IntegerField(default=0)
     size = models.CharField(max_length=255)
     color = models.CharField(max_length=255)
     desc = models.CharField(max_length=555)

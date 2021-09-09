@@ -13,6 +13,8 @@ class userRegistration(View):
         context = {
             'form':form,
         }
+        if request.user.is_authenticated:
+            return redirect('main:index')
         return render(request, 'app_user/userRegistration.html', context)
 
     def post(self, request):

@@ -27,12 +27,17 @@ class shop(ListView):
     template_name = 'app_products/shop.html'
     context_object_name = "products"
     paginate_by = 4
-    queryset = models.product.objects.all().order_by('-upload_date')
+    # queryset = models.product.objects.all().order_by('-upload_date')
 
     def get_context_data(self, **kwargs):
         context = super(shop, self).get_context_data(**kwargs)
         context['categorys'] = models.category.objects.all()
         return context
+        
+    def get_queryset(self):
+        queryset = models.product.objects.all().order_by('-upload_date')       
+        return queryset
+    
 
 ################################### product Details view
 
@@ -53,15 +58,48 @@ class productDetails(DetailView):
         return context
 
 ################################### Product filter
+
 class productFilter(View):
     def get(self, request):
         context = {}
-        search = request.GET.get('filter')
-        products = models.product.objects.filter(cat__productCategory=search)
-
+        all_products = models.product.objects.all().order_by('-upload_date')
         page = request.GET.get('page', 1)
+        search = request.GET.get('search')
+        catBy = request.GET.get('cat')
+        sortBy = request.GET.get('sb')
+        priceBy = request.GET.get('pb')
+        colorBy = request.GET.get('cb')
+        # print(colorBy)
 
-        paginator = Paginator(products, 3)
+
+        if search or colorBy:
+            from simple_search import search_filter
+            search_fields = ['title',]
+            query = search
+            try:
+                results = all_products.filter(search_filter(search_fields, query))
+            except:
+                results = all_products.filter(search_filter(search_fields, colorBy))
+
+
+            all_products = results
+            
+        if catBy:
+            all_products = all_products.filter(cat__productCategory=catBy)
+        if sortBy == 'lowHigh':
+            all_products = all_products.order_by('price')
+        if sortBy == 'highLow':
+            all_products = all_products.order_by('-price')
+        if priceBy:
+            try:
+                minPrice = priceBy.split('-')[0]
+                maxPrice = priceBy.split('-')[1]
+                all_products = all_products.filter(price__gte = minPrice,price__lte=maxPrice)
+            except:
+                all_products = all_products.filter(price__gte = 5000)
+
+        
+        paginator = Paginator(all_products, 3)
         try:
             product = paginator.page(page)
         except PageNotAnInteger:
@@ -72,7 +110,6 @@ class productFilter(View):
         ######## Context ########
         context['categorys'] = models.category.objects.all()
         context['products'] = product
-        context['categoryName'] = search
-        
+        context['categoryName'] = catBy     
 
         return render(request, 'app_products/shop-filter.html', context)

@@ -83,7 +83,7 @@
               </li>
               {% if user.is_staff %}
               <li>
-                <a href="{% url 'admin:index' %}" target="_blank">Go to admin panel</a>
+                <a href="{% url 'admin:index' %}" target="_blank">Go to {% if request.user.groups.all.0.name == "seller" %}Seller{% else %}Admin{% endif %} panel</a>
               </li>
               {% endif %}
               {% if user.is_authenticated %}
@@ -101,16 +101,20 @@
                 <i class="zmdi zmdi-search"></i>
               </div>
             </div>
-
-            <div class="flex-c-m h-full p-l-18 p-r-25 bor5">
-           
-              <div id="cartCount" class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 icon-header-noti js-show-cart" data-notify="{{cartCount}}">
-                <i class="zmdi zmdi-shopping-cart"></i>
+            {% if user.is_authenticated %}
+            <div>
+              <div id="cCount">
+                <div class="flex-c-m h-full p-l-18 p-r-25 bor5">
+                  <div  id="cartCount" class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 icon-header-noti js-show-cart" data-notify="{{cartCount}}">
+                    <i class="zmdi zmdi-shopping-cart"></i>
+                </div>
               </div>
+            </div>
             
             </div>
+            {% endif %}
 
-            <div class="flex-c-m h-full p-l-18 p-r-25 bor5">
+            <div class="flex-c-m h-full p-l-18 p-r-25 bor">
 
               <div class="dropdown">
                 <button class="btn  dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
@@ -217,7 +221,7 @@
           <img src="{% static 'images/icons/icon-close2.png' %}" alt="CLOSE">
         </button>
 
-        <form class="wrap-search-header flex-w p-l-15">
+        <form action="{% url 'products:productFilter' %}" class="wrap-search-header flex-w p-l-15">
           <button class="flex-c-m trans-04">
             <i class="zmdi zmdi-search"></i>
           </button>
@@ -295,50 +299,52 @@
   </aside>
 
   <!-- Cart -->
-  <div class="wrap-header-cart js-panel-cart">
-    <div class="s-full js-hide-cart"></div>
+  <div>
+    <div class="wrap-header-cart js-panel-cart">
+      <div class="s-full js-hide-cart"></div>
 
-    <div class="header-cart flex-col-l p-l-65 p-r-25">
-      <div class="header-cart-title flex-w flex-sb-m p-b-8">
-        <span class="mtext-103 cl2"> Your Cart </span>
+      <div class="header-cart flex-col-l p-l-65 p-r-25">
+        <div class="header-cart-title flex-w flex-sb-m p-b-8">
+          <span class="mtext-103 cl2"> Your Cart </span>
 
-        <div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
-          <i class="zmdi zmdi-close"></i>
-        </div>
-      </div>
-
-      <section id="sideCart">
-        <div id='' class="header-cart-content flex-w js-pscroll">
-          <ul id='cartUL' class="header-cart-wrapitem w-full">
-          {% for itm in user.cart_set.all %}
-            <li class="header-cart-item flex-w flex-t m-b-12">
-              <a class="productRemove" href="{% url 'cart:removeFromCart' itm.pk %}?next={% firstof request.path '/' %}">
-                <div class="header-cart-item-img x">
-                  <img src="{{itm.product_id.img1.url}}" alt="IMG">
-                </div>
-              </a>
-
-              <div class="header-cart-item-txt p-t-8">
-                <a href="{% url 'products:productDetails' itm.product_id itm.product_id.slug %}" class="header-cart-item-name m-b-3 hov-cl1 trans-04"> {{itm.product_id.title|slice:20}} </a>
-                <small class="header-cart-item-info">Size: {{itm.product_size}}</small>
-                <span class="header-cart-item-info"> {{itm.product_qty}} x Rs. {% widthratio itm.product_id.price 1 itm.product_qty %} </span>
-              </div>
-            </li>
-          {% endfor %}
-          </ul>
-
-          <div class="w-full">
-            <div class="header-cart-total w-full p-tb-40 ">Total: Rs. <span id="cartTotal">{{cartTotal}}</span></div>
-            <div class="header-cart-buttons flex-w w-full">
-              <a href="{% url 'cart:myCart' %}"
-                class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10"> View Cart </a>
-
-              <a href="{% url 'cart:myCart' %}"
-                class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10"> Check Out </a>
-            </div>
+          <div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
+            <i class="zmdi zmdi-close"></i>
           </div>
-        </section>
-        
+        </div>
+
+        <section id="sideCart">
+          <div id='' class="header-cart-content flex-w js-pscroll">
+            <ul id='cartUL' class="header-cart-wrapitem w-full">
+            {% for itm in user.cart_set.all %}
+              <li class="header-cart-item flex-w flex-t m-b-12">
+                <a class="productRemove" href="{% url 'cart:removeFromCart' itm.pk %}?next={% firstof request.path '/' %}">
+                  <div class="header-cart-item-img x">
+                    <img src="{{itm.product_id.img1.url}}" alt="IMG">
+                  </div>
+                </a>
+
+                <div class="header-cart-item-txt p-t-8">
+                  <a href="{% url 'products:productDetails' itm.product_id itm.product_id.slug %}" class="header-cart-item-name m-b-3 hov-cl1 trans-04"> {{itm.product_id.title|slice:20}} </a>
+                  <small class="header-cart-item-info">Size: {{itm.product_size}}</small>
+                  <span class="header-cart-item-info"> {{itm.product_qty}} x Rs. {% widthratio itm.product_id.price 1 itm.product_qty %} </span>
+                </div>
+              </li>
+            {% endfor %}
+            </ul>
+
+            <div class="w-full">
+              <div class="header-cart-total w-full p-tb-40 ">Total: Rs. <span id="cartTotal">{{cartTotal}}</span></div>
+              <div class="header-cart-buttons flex-w w-full">
+                <a href="{% url 'cart:myCart' %}"
+                  class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10"> View Cart </a>
+
+                <a href="{% url 'cart:myCart' %}"
+                  class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10"> Check Out </a>
+              </div>
+            </div>
+          </section>
+          
+        </div>
       </div>
     </div>
   </div>
@@ -620,7 +626,7 @@
 
   <!--==================================Required JS =========================================================-->
   {% comment %} <script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script> {% endcomment %}
-
+<div id='xcv'>
   <script src="{% static 'vendor/jquery/jquery-3.6.0.min.js' %}"></script>
   <script>
     jQuery.event.special.touchmove = {
@@ -753,8 +759,7 @@
   <script src="{% static 'js/main.js' %}"></script>
   <script src="{% static 'js/my.js' %}"></script>
   <script>
-    $(document).ready(function () {
-
+    $(document).ready(function() {
       //{% comment %} ============================= IF messages {% endcomment %}
       {% if messages %}
       {% for message in messages %}
@@ -798,11 +803,14 @@
 
         });
       });
+      
+      {% block jsIn %}{% endblock jsIn %}
     });
   </script> 
   {% block js %}
 
   {% endblock js %}
+  </div>
 </body>
 
 </html>
